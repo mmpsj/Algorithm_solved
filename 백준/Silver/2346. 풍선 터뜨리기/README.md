@@ -32,6 +32,8 @@
 
 ### 풀이
 
+2024 / 03 / 16
+
 파이썬의 collections 라이브러리의 deque를 사용한다.
 
     from collections import deque
