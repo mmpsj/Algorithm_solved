@@ -53,3 +53,26 @@
 
  <p>수열 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D436 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>C</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$C$</span></mjx-container>의 원소를 차례대로 queuestack에 삽입했을 때의 리턴값을 공백으로 구분하여 출력한다.</p>
 
+### 풀이
+
+이 문제의 각 자료구조(스택, 큐)는 원소를 하나만 가지고 있다. 
+
+큐에 push하고 pop하면 원래 있던 값이 나오고, 스택에 push하고 pop하면 새로 들어간 값이 나온다. 즉 스택의 원소는 결과적으로 변하지 않는다. 따라서 큐만 다루면 된다.
+
+큐에서 pop하면 원래 원소가 나오므로, 출력은 마지막 큐의 원래 원소부터 진행된다. 따라서 새로운 큐(이하 큐0)를 만들어 처음에 설정된 큐들의 원소를 마지막 큐부터 저장하면, 마지막 큐의 원소부터 꺼낼 수 있다.
+
+입력으로 들어오는 값들은 큐에 순서대로 저장되기 때문에, 입력 순서대로 큐0에 저장하면 된다. 즉 큐0에 저장된 순서는 [마지막 큐의 원소, 마지막 - 1 큐의 원소, ..., 첫번째 큐의 원소, 입력 1, 입력 2, ..., 입력 m]이 된다.
+
+이 큐0의 원소를 순서대로 m개만큼 출력하면 된다.
+
+처음엔 자료구조의 정보, 자료구조의 원소를 모두 배열에 저장하여 큐면 큐0에 원소를 저장하는 식으로 구현했다.
+
+결과는 맞았지만 시간을 줄일 방법을 고민해봤는데, StringTokenizer 객체를 두개 만들어 두 줄의 입력을 동시에 다룰 수 있다는 것을 알았다.
+
+그래서 자료구조의 정보 입력을 다루는 st1, 자료구조의 원소 입력을 다루는 st2를 만들어서 st1.nextToken()이 0이면 st2.nextToken()을 저장하고, 0이 아니면 그냥 st2.nextToken()만 해서 넘어가는 식으로 저장했다.
+
+하지만 이렇게 하면 기존 자료구조의 원소들이 큐0에 첫번째 큐부터 마지막 큐 순서대로 저장되는데, 역순으로 저장하는 것이 필요했다. 그렇다고 스택을 사용하자니 입력되는 값들은 또 순서대로 저장해야 해서 덱을 사용했다.
+
+기존 자료구조의 원소들은 맨 앞에 넣어서 마지막 큐 ~ 첫번째 큐 순서대로 저장되고, 이후 입력값들은 맨 뒤에 넣어서 순서대로 저장되었다.
+
+이렇게 저장된 덱의 첫번째 원소부터 m개만큼 출력하면 완료된다.
