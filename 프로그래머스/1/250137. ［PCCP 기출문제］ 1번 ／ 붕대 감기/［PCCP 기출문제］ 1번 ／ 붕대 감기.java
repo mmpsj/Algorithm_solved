@@ -1,23 +1,18 @@
 class Solution {
     public int solution(int[] bandage, int health, int[][] attacks) {
         int hp = health;
-        int cur_time = 0;
-        for (int i = 0; i < attacks.length; i++) {
-            if (hp < health) {
-                for (int j = 1; j < attacks[i][0] - cur_time; j++) {
-                    hp += bandage[1];
-                    if (j % bandage[0] == 0) {
-                        hp += bandage[2];
-                    }
-                    if (hp > health) {
-                        hp = health;
-                        break;
-                    }
-                }
+        int atk_time = 0;
+        for (int[] temp : attacks) {
+            if (hp <= 0) {
+                return -1;
             }
-            hp -= attacks[i][1];
-            if (hp <= 0) break;
-            cur_time = attacks[i][0];
+            int band_count = temp[0] - atk_time - 1;
+            int bonus_count = band_count / bandage[0];
+            hp += band_count * bandage[1];
+            hp += bonus_count * bandage[2];
+            hp = Math.min(hp, health);
+            hp -= temp[1];
+            atk_time = temp[0];
         }
         return (hp <= 0) ? -1 : hp;
     }
