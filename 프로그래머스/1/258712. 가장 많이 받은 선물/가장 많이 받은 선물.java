@@ -17,26 +17,16 @@ class Solution {
             gift_amount[friend_idx.get(fr2)]--;
             log[friend_idx.get(fr1)][friend_idx.get(fr2)]++;
         }
-        int[] will = new int[len];
-        for (int i = 0; i < len - 1; i++) {
-            for (int j = i + 1; j < len; j++) {
-                if (log[i][j] > log[j][i]) {
-                    will[i]++;
-                } else if (log[i][j] < log[j][i]) {
-                    will[j]++;
-                } else {
-                    if (gift_amount[i] > gift_amount[j]) {
-                        will[i]++;
-                    } else if (gift_amount[i] < gift_amount[j]) {
-                        will[j]++;
-                    }
-                }
-            }
-        }
-        int max = 0;
+        int answer = 0;
         for (int i = 0; i < len; i++) {
-            if (will[i] > max) max = will[i];
+            int gift_count = 0;
+            for (int j = 0; j < len; j++) {
+                if (i == j) continue;
+                if (log[i][j] > log[j][i]) gift_count++;
+                else if (log[i][j] == log[j][i] && gift_amount[i] > gift_amount[j]) gift_count++;
+            }
+            answer = Math.max(answer, gift_count);
         }
-        return max;
+        return answer;
     }
 }
