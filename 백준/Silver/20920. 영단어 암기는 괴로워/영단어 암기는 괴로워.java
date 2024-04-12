@@ -1,45 +1,59 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+class Word implements Comparable<Word> {
+    int count;
+    int len;
+    String word;
 
-    static HashMap<String, Integer> dict;
+    public Word(String word) {
+        this.word = word;
+        len = word.length();
+        count = 1;
+    }
+
+    public void addCount() {
+        count++;
+    }
+
+    @Override
+    public int compareTo(Word w) {
+        if (count > w.count) {
+            return -1;
+        } else if (count < w.count) {
+            return 1;
+        } else {
+            if (len == w.len) {
+                return word.compareTo(w.word);
+            } else {
+                return w.len - len;
+            }
+        }
+    }
+}
+
+public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
-        dict = new HashMap<>();
+        Map<String, Word> map = new HashMap<>();
         for (int i = 0; i < n; i++) {
-            String temp = br.readLine();
-            if (temp.length() >= m) {
-                dict.put(temp, dict.getOrDefault(temp, 0) + 1);
+            String str = br.readLine();
+            if (str.length() < m) continue;
+            if (map.containsKey(str)) {
+                map.get(str).addCount();
+            } else {
+                map.put(str, new Word(str));
             }
         }
-        List<String> words = new ArrayList<>(dict.keySet());
-        Collections.sort(words, (String o1, String o2) -> {
-            if (dict.get(o1) > dict.get(o2)) {
-                return -1;
-            } else if (dict.get(o1) < dict.get(o2)) {
-                return 1;
-            } else {
-                if (o1.length() > o2.length()) {
-                    return -1;
-                } else if (o1.length() < o2.length()) {
-                    return 1;
-                } else {
-                    int index = 0;
-                    while (index < o1.length() && o1.charAt(index) == o2.charAt(index)) {
-                        index++;
-                    }
-                    return o1.charAt(index) - o2.charAt(index);
-                }
-            }
-        });
+        Set<Word> set = new TreeSet<>(map.values());
+        Iterator<Word> it = set.iterator();
         StringBuilder sb = new StringBuilder();
-        for (String s : words) {
-            sb.append(s).append('\n');
+        while (it.hasNext()) {
+            sb.append(it.next().word).append('\n');
         }
         System.out.print(sb.toString());
     }
