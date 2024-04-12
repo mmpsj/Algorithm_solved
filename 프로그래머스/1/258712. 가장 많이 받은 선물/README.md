@@ -279,3 +279,39 @@
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://school.programmers.co.kr/learn/challenges
+
+### 풀이
+
+우선 각 친구가 선물을 주고받은 기록을 저장해야 해서, 2차원 배열로 서로 주고받은 선물의 개수를 기록하려고 했다. 그러다 보니 각 친구를 인덱스로 사용해야 했는데, 파이썬에서는 dictionary를 이용해 문자열을 인덱스로 줄 수 있지만 자바는 아니기 때문에 HashMap을 이용해서 각 친구의 이름과 순서를 매칭시켰다.
+
+```java
+Map<String, Integer> friends_idx = new HashMap<>();
+~
+friends_idx.put(friends[i], i);
+```
+
+이후 선물 기록인 gifts에 대해 반복문을 실행하고, 각 기록을 StringTokenizer로 나눠서 첫번째 친구(i)가 두번째 친구(j)에게 주는 것으로 배열에 기록했다. 이때 각 친구의 선물 지수도 같이 계산했다. 이후 결과를 계산할 때 각 친구의 선물 지수가 필요한데, 그때 가서 계산하려면 반복문을 또 돌려야 하기 때문이다. 그래서 첫번째 친구의 선물 지수는 1 올리고, 두번째 친구의 선물 지수는 1 내렸다.
+
+```java
+gift_amount[i]++;
+gift_amount[j]++;
+log[friends_idx.get(i)][friends_idx.get(j)]++;
+```
+
+이제 기록을 이용해 각 친구가 받게 될 선물의 수를 계산하면 된다. 처음엔 여러 경우를 나눠서 각 친구의 선물을 하나씩 추가해주기 위해 배열을 만들었었다. 하지만 한 친구가 받게 될 선물의 수를 계산하고, 다음 친구가 받을 선물의 수와 비교해서 큰 값을 저장하는 과정을 반복하면 정답이 나온다. 그래서 각 친구에 대한 반복문을 돌리고, 그 친구가 받게 될 선물의 수를 기록하기 시작했다.
+
+반복문을 추가하여 다른 친구들과 비교한다. 친구와 주고받은 선물의 수를 비교하여, 내가 준 선물이 더 많으면 내가 받고, 같을 때는 선물 지수를 비교하여 내가 더 높으면 내가 받는다. 이렇게 다른 친구들과의 비교를 마치고, 이미 받을 선물의 수를 확인한 친구들 중에 가장 많이 받는 친구와 비교해서 큰 값을 저장한다. 이를 반복하여 제일 큰 값을 반환하면 된다.
+
+```java
+int answer = 0;
+for (int i = 0; i < len; i++) {
+    int gift_count = 0;
+    for (int j = 0; j < len; j++) {
+        if (i == j) continue;
+        if (log[i][j] > log[j][i]) gift_count++;
+        else if (log[i][j] == log[j][i] && gift_amount[i] > gift_amount[j]) gift_count++;
+    }
+    answer = Math.max(answer, gift_count);
+}
+return answer;
+```
