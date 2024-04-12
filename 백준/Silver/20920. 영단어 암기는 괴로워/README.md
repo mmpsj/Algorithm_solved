@@ -56,23 +56,93 @@ Arrays.sort(words, (String o1, String o2) -> {
 	} else if (dict.get(o1) < dict.get(o2)) {
                 return 1;
 	} else {
-		if (o1.length() > o2.length()) {
-			return -1;
-                } else if (o1.length() < o2.length()) {
-			return 1;
-                } else {
-                    int index = 0;
-                    while (index < o1.length() && o1.charAt(index) == o2.charAt(index)) {
-                        index++;
-                    }
-                    return o1.charAt(index) - o2.charAt(index);
-                }
-            }
-        });
+		if (o1.length() == o2.length()) {
+			return o1.compareTo(o2);
+		} else {
+			return o2.length() - o1.length();
+		}
+	}
+});
 ```
 
 해당 코드는 words 배열을 Arrays.sort를 이용해 정렬하는데 정렬 조건으로 람다 함수를 준 것이다. 
 
-해당 람다 함수는 words의 두 문자열을 비교하는데, 먼저 빈도수를 기준으로 많은 쪽이 앞으로 오도록 한다. 횟수가 같다면 길이가 긴 쪽이 앞으로 오도록 한다. 길이도 같다면 문자를 비교하여 알파벳 순으로 정렬시킨다.
+해당 람다 함수는 words의 두 문자열을 비교하는데, 먼저 빈도수를 기준으로 많은 쪽이 앞으로 오도록 한다. 횟수가 같다면 길이를 비교한다. 길이가 같다면 문자열을 그대로 비교해서 알파벳 순으로 정렬하고, 길이가 다르다면 뒤 문자열에서 앞 문자열의 길이를 빼면 길이가 긴 순서대로 정렬할 수 있다.
 
-이렇게 하고 StringBuilder로 출력했는데, 시간 초과가 나왔다. 
+이렇게 하고 StringBuilder로 출력했는데, 시간 초과가 나왔다. 그래서 질문 게시판을 찾아봤는데, String 배열 대신 ArrayList를 사용하니 된다는 이야기가 있어서 시도해봤다. list로 바꾸면 Arrays.sort를 Collections.sort로 바꿔야 한다. 값을 가져오는 방식도 달라진다.
+
+```java
+List<String> words = new ArrayList<>(dict.keySet());
+Collections.sort(words, (String o1, String o2) -> {
+	if (dict.get(o1) > dict.get(o2)) {
+		return -1;
+	} else if (dict.get(o1) < dict.get(o2)) {
+                return 1;
+	} else {
+                if (o1.length() == o2.length()) {
+			return o1.compareTo(o2);
+		} else {
+			return o2.length() - o1.length();
+		}
+	}
+});
+```
+
+이렇게 하니 시간제한인 1초에 아슬아슬하게 걸려서 성공했다.(948ms) 하지만 너무 아슬아슬해서 더 좋은 방법이 있지 않을까 하고 찾아봤다. 찾아보니 저렇게 직접 정렬하는 것 말고 클래스를 만들어서 Comparable을 implement하는 방법도 있어서 사용해봤다. Word 클래스를 만들어서, 해당 객체가 문자열, 문자열의 길이, 빈도수를 저장하도록 했다. 그리고 compareTo 함수를 override하여 정렬 기준을 정해줬다. 정렬 기준은 위에서 사용했던 방식과 같다. 아래는 Word 클래스이다.
+
+```java
+class Word implements Comparable<Word> {
+    int count;
+    int len;
+    String word;
+
+    public Word(String word) {
+        this.word = word;
+        len = word.length();
+        count = 1;
+    }
+
+    public void addCount() {
+        count++;
+    }
+
+    @Override
+    public int compareTo(Word w) {
+        if (count > w.count) {
+            return -1;
+        } else if (count < w.count) {
+            return 1;
+        } else {
+            if (len == w.len) {
+                return word.compareTo(w.word);
+            } else {
+                return w.len - len;
+            }
+        }
+    }
+}
+```
+
+이렇게 클래스를 만들면 Collections.sort와 같은 자바 내부적으로 구현된 정렬을 진행할 때 Word 객체의 정렬 기준이 정해진다. 이후 map의 엔트리를 <String, Integer>에서 <String, Word>로 변경해서 저장 구조를 바꿨다.
+
+```java
+for (int i = 0; i < n; i++) {
+	String str = br.readLine();
+	if (str.length() < m) continue;
+	if (map.containsKey(str)) {
+		map.get(str).addCount();
+	} else {
+                map.put(str, new Word(str));
+	}
+}
+```
+
+이제 정렬만 하면 되는데, key와 관계없이 value만 정렬하면 된다. 그래서 value를 정렬하려는데, map.values()로 모두 가져올 수는 있지만 return type이 Collection<Word>라서 바로 Collections.sort를 할 수 없었다. 마침 자바에는 TreeSet이라는 Set을 정렬해서 저장하는 자료구조가 있고, Set을 생성할 때 인자로 Collection<E>를 줄 수 있었다. 그래서 이를 생성하면 자동으로 정렬도 되는 것이다.
+
+```java
+Set<Word> set = new TreeSet<>(map.values());
+```
+
+이렇게 정렬된 Set을 iterator를 이용해 모두 Stringbuilder를 이용해 출력해주니 시간이 좀 넉넉해졌다.(624ms)
+
+여러 자료구조의 특성을 잘 알아야겠다는 생각을 했다.
