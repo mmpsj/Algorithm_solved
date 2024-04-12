@@ -38,3 +38,41 @@
 
  <p>화은이의 단어장에 들어 있는 단어를 단어장의 앞에 위치한 단어부터 한 줄에 한 단어씩 순서대로 출력한다.</p>
 
+### 풀이
+
+우선 각 단어에 대한 횟수를 저장해야 하기 때문에, HashMap<String, Integer>로 저장했다. 저장할 때 길이 m 미만인 것들은 저장하지 않았다. 
+
+이제 정렬을 해야 하는데, 이게 좀 막막했다. 그냥 단순히 경우 나눠서 해야 하는 건지, 그렇다면 각 경우 조건을 어떻게 걸어야 하는지, ... 고민을 오래 해보다가 답이 안 나와서 검색을 해봤다. 찾아보니 Arrays.sort에 인자로 람다 함수를 줘서 정렬하는 방법이 있다는 것을 알았다. 그렇게 정렬한 코드는 다음과 같다.
+
+```java
+String[] words = new String[dict.size()];
+int idx = 0;
+for (String s : dict.keySet()) {
+	words[idx++] = s;
+}
+Arrays.sort(words, (String o1, String o2) -> {
+	if (dict.get(o1) > dict.get(o2)) {
+		return -1;
+	} else if (dict.get(o1) < dict.get(o2)) {
+                return 1;
+	} else {
+		if (o1.length() > o2.length()) {
+			return -1;
+                } else if (o1.length() < o2.length()) {
+			return 1;
+                } else {
+                    int index = 0;
+                    while (index < o1.length() && o1.charAt(index) == o2.charAt(index)) {
+                        index++;
+                    }
+                    return o1.charAt(index) - o2.charAt(index);
+                }
+            }
+        });
+```
+
+해당 코드는 words 배열을 Arrays.sort를 이용해 정렬하는데 정렬 조건으로 람다 함수를 준 것이다. 
+
+해당 람다 함수는 words의 두 문자열을 비교하는데, 먼저 빈도수를 기준으로 많은 쪽이 앞으로 오도록 한다. 횟수가 같다면 길이가 긴 쪽이 앞으로 오도록 한다. 길이도 같다면 문자를 비교하여 알파벳 순으로 정렬시킨다.
+
+이렇게 하고 StringBuilder로 출력했는데, 시간 초과가 나왔다. 
