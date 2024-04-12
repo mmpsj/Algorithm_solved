@@ -5,40 +5,39 @@ public class Main {
         public static void main(String[] args) throws IOException {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             int n = Integer.parseInt(br.readLine());
-            int[] num = new int[n];
-            Map<Integer, Integer> map = new HashMap<>();
+            int[] count = new int[8001];
             int sum = 0, min = 4000, max = -4000;
             for (int i = 0; i < n; i++) {
-                int key = Integer.parseInt(br.readLine());
-                num[i] = key;
-                if (map.containsKey(key)) {
-                    map.replace(key, map.get(key) + 1);
-                } else {
-                    map.put(key, 1);
-                }
-                sum += key;
-                min = Math.min(min, key);
-                max = Math.max(max, key);
+                int num = Integer.parseInt(br.readLine());
+                count[4000 + num]++;
+                sum += num;
+                min = Math.min(min, num);
+                max = Math.max(max, num);
             }
-            Arrays.sort(num);
-            int max_count = 0;
-            for (int i : num) {
-                max_count = Math.max(max_count, map.get(i));
-            }
-            int many1 = -4001, many2 = -4001;
-            for (int i : num) {
-                if (map.get(i) == max_count) {
-                    if (many1 == -4001) {
-                        many1 = i;
-                    } else if (many2 == -4001 && i != many1) {
-                        many2 = i;
+            int mid = 4001;
+            int cnt = 0;
+            int many = 0;
+            int max_cnt = 0;
+            boolean cnt_check = false;
+            for (int i = min + 4000; i < max + 4001; i++) {
+                if (count[i] > 0) {
+                    cnt += count[i];
+                    if (mid == 4001 && cnt > n / 2) {
+                        mid = i - 4000;
+                    }
+                    if (count[i] > max_cnt) {
+                        max_cnt = count[i];
+                        many = i - 4000;
+                        cnt_check = true;
+                    } else if (count[i] == max_cnt && cnt_check) {
+                        many = i - 4000;
+                        cnt_check = false;
                     }
                 }
             }
-            System.out.println(Math.round((double)sum / n));
-            System.out.println(num[(n - 1) / 2]);
-            System.out.println((many2 == -4001)? many1 : many2);
-            System.out.println(max - min);
+            StringBuilder sb = new StringBuilder();
+            sb.append(Math.round((double)sum / n)).append('\n').append(mid).append('\n').append(many).append('\n').append(max - min);
+            System.out.print(sb.toString());
             br.close();
         }
 }
