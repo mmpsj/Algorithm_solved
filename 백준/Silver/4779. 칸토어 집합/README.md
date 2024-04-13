@@ -64,3 +64,34 @@
  <p>
 	입력으로 주어진 N에 대해서, 해당하는 칸토어 집합의 근사를 출력한다.</p>
 
+### 풀이
+
+우선 입력 개수가 정해져 있지 않으므로, 반복문 안에서 입력받고 입력값이 없거나 비어있으면 반복문을 종료하도록 했다. 먼저 어떤 자료구조를 사용할지 고민했는데, 전체 문자열을 저장할 배열을 만들기에는 배열의 크기가 3^12까지 되기 때문에 너무 커질 것 같았다. 그래서 어차피 문자열 한 줄 출력하는 것이니 StringBuilder 객체를 재귀 함수의 인자로 넘겨주면 문자열을 다 이을 수 있다는 생각을 했다.
+
+재귀 함수의 인자로는 공백을 확인하는 boolean, 현재 함수의 문자열 길이를 알려주는 int, 문자열을 기록할 StringBuilder가 들어간다.
+
+```java
+public static void cantor(boolean print, int len, StringBuilder sb)
+```
+
+재귀 함수에서는 길이인 len이 3 미만이면 sb에 문자열을 추가하는데, print가 true이면 "-"를 추가하고 false이면 " "를 추가한다.
+
+3 이상이면 재귀 함수를 호출한다. 각 입력이 세개로 쪼개져서 진행되는 것이므로 3번의 호출이 필요하다. 왼쪽-가운데-오른쪽 순으로 호출하는데, 기본적으로 왼쪽과 오른쪽은 문자가 있으니까 print를 true로 넘겨 주고, 가운데는 false로 넘겨준다. 한번 false로 넘어왔으면 그에 해당하는 아래 재귀들은 모두 " "을 출력하도록 print가 false이면 셋 모두 false로 넘겨준다.
+
+```java
+public static void cantor(boolean print, int len, StringBuilder sb) {
+	if (len < 3) {
+            	sb.append((print)? "-" : " ");
+        } else {
+            	if (print) {
+                	cantor(true, len / 3, sb);
+                	cantor(false, len / 3, sb);
+                	cantor(true, len / 3, sb);
+            	} else {
+                	cantor(false, len / 3, sb);
+                	cantor(false, len / 3, sb);
+                	cantor(false, len / 3, sb);
+            	}
+        }
+}
+```
