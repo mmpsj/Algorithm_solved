@@ -95,3 +95,34 @@ public static void cantor(boolean print, int len, StringBuilder sb) {
         }
 }
 ```
+
+다른 사람의 코드를 보니 재귀를 사용하지 않고 n값에 따른 결과들을 미리 저장해놓는 방식도 있었다. 
+
+String형 배열을 인덱스 0~12로 만들고, 각 n에 대한 출력 결과를 저장한다. 배열(arr)[0]을 "-"로 하고, 각 n에 들어갈 공백을 space로 정의한다.
+
+반복문을 i  = 1 ~ 12까지 돌려서, arr[i] = arr[i - 1] + space + arr[i - 1]로 하고, space는 space를 3번 붙인 것으로 업데이트한다. 이 과정을 반복하면 n = 12까지의 모든 결과를 저장하게 된다.
+
+```java
+public static String[] arr = new String[13];
+~
+	arr[0] = "-";
+	StringBuilder sb;
+	String space = " ";
+	StringBuilder spsb;	
+	for(int i=1; i<arr.length; i++) {
+		sb = new StringBuilder();
+		sb = sb.append(arr[i-1]).append(space).append(arr[i-1]);
+		arr[i] = sb.toString();	
+		spsb = new StringBuilder();
+		for(int j=0; j<3; j++) {
+			spsb.append(space);
+		}
+		space = spsb.toString();
+	}
+```
+
+이후 n을 입력받고 arr[n]을 출력하면 되는 것이다.
+
+이 방법은 n의 입력 범위가 작아서 사용할 수 있다고 생각한다. n이 12를 넘어 훨씬 커진다면 배열의 크기도 훨씬 커지고, 저장할 양도 많아져서 자원 관리에 문제가 생길 수 있기 때문이다. 
+
+물론 이 문제처럼 범위가 작은 경우에는 사용해도 문제 없다. 문제를 풀 때 입력 범위에 대한 고려도 필요하다는 것을 배웠다. 내 방법이 모든 경우를 커버할 수 있는 방법이라고 생각해서 풀었더라도, 문제에 따라 단순하게 풀릴 수도 있다.
