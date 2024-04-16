@@ -5,7 +5,6 @@ public class Main {
 
     public static StringBuilder sb = new StringBuilder();
     public static int n, m;
-    public static int[] visit;
     public static int[] arr;
 
     public static void main(String[] args) throws IOException {
@@ -13,7 +12,6 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        visit = new int[n];
         arr = new int[m];
         dfs(0);
         System.out.println(sb);
@@ -28,12 +26,8 @@ public class Main {
             return;
         }
         for (int i = 0; i < n; i++) {
-            if (visit[i] < m) {
-                visit[i]++;
-                arr[depth] = i + 1;
-                dfs(depth + 1);
-                visit[i]--;
-            }
+            arr[depth] = i + 1;
+            dfs(depth + 1);
         }
     }
 }
