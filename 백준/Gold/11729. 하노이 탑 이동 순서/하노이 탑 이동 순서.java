@@ -7,11 +7,11 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         int n = Integer.parseInt(br.readLine());
         sb.append((int)Math.pow(2, n) - 1).append("\n");
-        hanoi(sb, n, 1, 2, 3);
+        hanoi(sb, n, '1', '2', '3');
         System.out.print(sb);
     }
 
-    public static void hanoi(StringBuilder sb, int n, int from, int temp, int to) {
+    public static void hanoi(StringBuilder sb, int n, char from, char temp, char to) {
         if (n == 1) {
             sb.append(from).append(' ').append(to).append('\n');
             return;
