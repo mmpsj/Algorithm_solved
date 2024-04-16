@@ -48,12 +48,12 @@ public static void star(char[][] arr, int n, int x, int y, boolean blank)
 
 ```java
 if (blank) {
- for (int i = x; i < x + n; i++) {
-  for (int j = y; j < y + n; j++) {
-   arr[i][j] = ' ';
-  }
- }
- return;
+    for (int i = x; i < x + n; i++) {
+        for (int j = y; j < y + n; j++) {
+            arr[i][j] = ' ';
+        }
+    }
+    return;
 }
 ```
 
@@ -61,7 +61,7 @@ if (blank) {
 
 ```java
 if (n == 1) {
-        arr[x][y] == '*';
+    arr[x][y] == '*';
 }
 ```
 
@@ -70,12 +70,12 @@ if (n == 1) {
 ```java
 int size = n / 3;
 for (int i = x; i < x + n; i += size) {
-        for (int j = y; j < y + n; j += size) {
-                if (i == x + size && j == y + size) {
-                        star(arr, size, i, j, true);
-                } else {
-                        star(arr, size, i, j, false);
-
+    for (int j = y; j < y + n; j += size) {
+        if (i == x + size && j == y + size) {
+            star(arr, size, i, j, true);
+        } else {
+            star(arr, size, i, j, false);
         }
+    }
 }
 ```
