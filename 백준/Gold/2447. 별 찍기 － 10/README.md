@@ -48,12 +48,12 @@ public static void star(char[][] arr, int n, int x, int y, boolean blank)
 
 ```java
 if (blank) {
-        for (int i = x; i < x + n; i++) {
-                for (int j = y; j < y + n; j++) {
-                        arr[i][j] = ' ';
-                }
-        }
-        return;
+ for (int i = x; i < x + n; i++) {
+  for (int j = y; j < y + n; j++) {
+   arr[i][j] = ' ';
+  }
+ }
+ return;
 }
 ```
 
