@@ -65,4 +65,17 @@ if (n == 1) {
 }
 ```
 
-이제 재귀함수를 호출하면 된다. 이때 총 9번을 호출하는데, 그 중 5번째는 blank를 true로, 나머지는 false로 호출하면 된다.
+이제 재귀함수를 호출하면 된다. 이때 총 9번을 호출하는데, 그 중 5번째는 blank를 true로, 나머지는 false로 호출하면 된다. 5번째 확인을 int 변수 하나 만들어서 확인할 수도 있지만, 변수를 더 만들면 저장 공간을 더 사용하게 되므로 반복문의 변수를 조건으로 걸어서 했다. 실제로 두 가지 버전을 제출해봤을 때 내 방법이 시간과 메모리에서 더 좋은 성능을 보였다.
+
+```java
+int size = n / 3;
+for (int i = x; i < x + n; i += size) {
+        for (int j = y; j < y + n; j += size) {
+                if (i == x + size && j == y + size) {
+                        star(arr, size, i, j, true);
+                } else {
+                        star(arr, size, i, j, false);
+
+        }
+}
+```
