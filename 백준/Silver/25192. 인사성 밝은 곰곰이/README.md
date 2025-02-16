@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 25444 KB, 시간: 276 ms
+메모리: 43680 KB, 시간: 2528 ms
 
 ### 분류
 
@@ -12,11 +12,11 @@
 
 ### 제출 일자
 
-2024년 4월 12일 20:34:23
+2025년 2월 16일 17:32:35
 
 ### 문제 설명
 
-<p style="text-align: center;"><img alt="인사하는 곰곰이" src="" style="max-height:120px; object-fit:contain; display:inline-block;"></p>
+<p style="text-align: center;"><img alt="인사하는 곰곰이" src="https://upload.acmicpc.net/cd52b787-5b7c-4857-b917-a95c10fe6ee9/-/preview/" style="max-height:120px; object-fit:contain; display:inline-block;"></p>
 
 <p>알고리즘 입문방 오픈 채팅방에서는 새로운 분들이 입장을 할 때마다 곰곰티콘을 사용해 인사를 한다. 이를 본 문자열 킬러 임스는 채팅방의 기록을 수집해 그 중 곰곰티콘이 사용된 횟수를 구해 보기로 했다.</p>
 
@@ -38,6 +38,3 @@
 
  <p>채팅 기록 중 곰곰티콘이 사용된 횟수를 출력하시오.</p>
 
-### 풀이
-
-먼저 n을 입력받는다. ENTER와 ENTER 사이의 채팅 멤버들을 저장하기 위한 자료구조로 HashSet을 선택했다. 사이에 한 멤버가 채팅을 여러번 보낼 수도 있기 때문에, 단순히 횟수를 합칠 수는 없다. 그래서 채팅을 보낸 멤버 수를 저장할 수 있도록 중복을 허용하지 않는 HashSet으로 정했다. 이후 n번 반복해서, ENTER가 나오면 새로 인사를 시작하기 때문에 현재까지 기록된 인사 수인 member.size()를 총합에 더하고 member.clear()로 기존 채팅한 멤버들을 없앤다. ENTER가 아니면 단순히 member.add(temp)로 기록해주면 된다. 마지막에 ENTER가 안 나올 수도 있으니 반복문이 끝나면 마지막으로 member.size()를 총합에 더한다.
