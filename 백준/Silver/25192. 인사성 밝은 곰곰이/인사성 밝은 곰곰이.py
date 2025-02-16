@@ -1,9 +1,11 @@
+import sys
+
 def func():
-    n = int(input())
+    n = int(sys.stdin.readline())
     count = 0
     arr = set()
-    for i in range(n):
-        str = input()
+    for _ in range(n):
+        str = sys.stdin.readline().rstrip()
         if (str == "ENTER"):
             count += len(arr)
             arr.clear()
