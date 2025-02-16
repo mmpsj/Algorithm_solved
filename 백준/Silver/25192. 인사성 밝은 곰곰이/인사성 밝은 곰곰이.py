@@ -5,11 +5,11 @@ def func():
     for i in range(n):
         str = input()
         if (str == "ENTER"):
-            arr = set()
+            count += len(arr)
+            arr.clear()
             continue
-        if (str not in arr):
-            arr.add(str)
-            count += 1
+        arr.add(str)
+    count += len(arr)
     return count
 
 if __name__ == "__main__":
