@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 15016 KB, 시간: 148 ms
+메모리: 32412 KB, 시간: 36 ms
 
 ### 분류
 
@@ -12,17 +12,17 @@
 
 ### 제출 일자
 
-2024년 4월 12일 20:50:28
+2025년 2월 19일 12:21:03
 
 ### 문제 설명
 
-<p style="text-align: center;"><img alt="무지개 댄스를 추는 총총과 그걸 보는 총총" src="" style="max-height:120px; object-fit:contain; display:inline-block;"></p>
+<p style="text-align: center;"><img alt="무지개 댄스를 추는 총총과 그걸 보는 총총" src="https://upload.acmicpc.net/12d3d8d8-06c0-4b31-b661-0ce1bc935cf9/-/preview/" style="max-height:120px; object-fit:contain; display:inline-block;"></p>
 
 <p>총총이는 친구 곰곰이의 소개로 <strong>제2회 곰곰컵</strong>에 출연할 기회를 얻었다!</p>
 
 <p>총총이는 자신의 묘기인 <strong><span style="color:#8c00ff;">무</span><span style="color:#00b7ff;">지</span><span style="color:#ff0082;">개 </span></strong><span><strong><span style="color:#ff9000;">댄</span><span style="color:#00ff40;">스</span></strong>를 선보여, 여러분의 환심을 사려 한다. 이 댄스는 중독성이 강하기 때문에, 한번 보게 된 사람은 모두 따라 하게 돼버린다.</span></p>
 
-<p style="text-align: center;"><img alt="무지개 댄스를 추는 총총 2마리" src="" style="max-height:120px; object-fit:contain; display:inline-block;"></p>
+<p style="text-align: center;"><img alt="무지개 댄스를 추는 총총 2마리" src="https://upload.acmicpc.net/4efdc327-804f-4929-8b6f-5b85577135c8/-/preview/" style="max-height:120px; object-fit:contain; display:inline-block;"></p>
 
 <p>사람들이 만난 기록이 시간 순서대로 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>N</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$N$</span></mjx-container>개 주어진다. (총총이는 토끼이지만 이 문제에서는 편의상 사람이라고 가정한다.)</p>
 
@@ -44,12 +44,3 @@
 
  <p>마지막 기록 이후 무지개 댄스를 추는 사람의 수를 출력하라.</p>
 
-### 풀이
-
-각 멤버의 이름과 댄스 상태를 저장해야 하므로 중복을 허용하지 않는 HashMap을 사용했다. 우선 총총이를 춤추는 상태로 map에 저장한다.
-
-이후 n번 반복하는데, 각 입력 당 두 멤버가 들어온다. 해당 멤버가 map에 없다면 춤추지 않는(처음에 춤추는 사람은 총총이뿐) 상태로 저장했다. 
-
-두 멤버를 저장했다면 두 멤버가 춤추는 상태인지 확인하고, 하나라도 춤추고 있다면, 둘 모두를 춤추는 상태로 바꿔준다.
-
-반복문이 끝나면 map에서 춤추는 상태인 개수를 세서 출력하면 된다.
